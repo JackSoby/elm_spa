@@ -1,5 +1,6 @@
 module Main exposing (main)
 
+import App.Pages as Pages
 import Browser
 import Browser.Navigation as Nav
 import Html exposing (..)
@@ -38,14 +39,16 @@ parser =
 
 
 type alias Model =
-    { key : Nav.Key
-    , url : Url.Url
-    , route : Route
+    { page : Pages.Model
     }
 
 
 init : () -> Url.Url -> Nav.Key -> ( Model, Cmd Msg )
 init flags url key =
+    let
+        ( nextPage, nextPageCmd ) =
+            Pages.init (Route.fromUrl url) nextSession
+    in
     ( Model key url Home, Cmd.none )
 
 
