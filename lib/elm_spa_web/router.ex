@@ -15,6 +15,7 @@ defmodule ElmSpaWeb.Router do
 
   scope "/", ElmSpaWeb do
     pipe_through :browser
+    get("/*path", PageController, :index)
 
     get "/", PageController, :index
   end
