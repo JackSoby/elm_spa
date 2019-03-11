@@ -28,7 +28,7 @@ type Route
 parser : Parser (Route -> a) a
 parser =
     oneOf
-        [ map Home (s "home")
+        [ map Home top
         , map About (s "about")
         ]
 
@@ -124,10 +124,10 @@ type alias Page msg =
 
 header : Html msg
 header =
-    div []
+    div [ class "collapse navbar-collapse" ]
         [ p [] [ text "Header" ]
         , ul []
-            [ viewLink "/home"
+            [ viewLink "/"
             , viewLink "/about"
             ]
         ]
