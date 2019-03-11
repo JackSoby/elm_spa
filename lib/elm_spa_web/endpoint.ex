@@ -1,7 +1,7 @@
-defmodule PhoenixElmBoilerplateWeb.Endpoint do
-  use Phoenix.Endpoint, otp_app: :phoenix_elm_boilerplate
+defmodule ElmSpaWeb.Endpoint do
+  use Phoenix.Endpoint, otp_app: :elm_spa
 
-  socket "/socket", PhoenixElmBoilerplateWeb.UserSocket,
+  socket "/socket", ElmSpaWeb.UserSocket,
     websocket: true,
     longpoll: false
 
@@ -11,7 +11,7 @@ defmodule PhoenixElmBoilerplateWeb.Endpoint do
   # when deploying your static files in production.
   plug Plug.Static,
     at: "/",
-    from: :phoenix_elm_boilerplate,
+    from: :elm_spa,
     gzip: false,
     only: ~w(css fonts images js favicon.ico robots.txt)
 
@@ -39,8 +39,8 @@ defmodule PhoenixElmBoilerplateWeb.Endpoint do
   # Set :encryption_salt if you would also like to encrypt it.
   plug Plug.Session,
     store: :cookie,
-    key: "_phoenix_elm_boilerplate_key",
+    key: "_elm_spa_key",
     signing_salt: "dh+Ylhwx"
 
-  plug PhoenixElmBoilerplateWeb.Router
+  plug ElmSpaWeb.Router
 end

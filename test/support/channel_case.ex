@@ -1,4 +1,4 @@
-defmodule PhoenixElmBoilerplateWeb.ChannelCase do
+defmodule ElmSpaWeb.ChannelCase do
   @moduledoc """
   This module defines the test case to be used by
   channel tests.
@@ -21,15 +21,15 @@ defmodule PhoenixElmBoilerplateWeb.ChannelCase do
       use Phoenix.ChannelTest
 
       # The default endpoint for testing
-      @endpoint PhoenixElmBoilerplateWeb.Endpoint
+      @endpoint ElmSpaWeb.Endpoint
     end
   end
 
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(PhoenixElmBoilerplate.Repo)
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(ElmSpa.Repo)
 
     unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(PhoenixElmBoilerplate.Repo, {:shared, self()})
+      Ecto.Adapters.SQL.Sandbox.mode(ElmSpa.Repo, {:shared, self()})
     end
 
     :ok

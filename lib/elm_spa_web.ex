@@ -1,12 +1,12 @@
-defmodule PhoenixElmBoilerplateWeb do
+defmodule ElmSpaWeb do
   @moduledoc """
   The entrypoint for defining your web interface, such
   as controllers, views, channels and so on.
 
   This can be used in your application as:
 
-      use PhoenixElmBoilerplateWeb, :controller
-      use PhoenixElmBoilerplateWeb, :view
+      use ElmSpaWeb, :controller
+      use ElmSpaWeb, :view
 
   The definitions below will be executed for every view,
   controller, etc, so keep them short and clean, focused
@@ -19,19 +19,19 @@ defmodule PhoenixElmBoilerplateWeb do
 
   def controller do
     quote do
-      use Phoenix.Controller, namespace: PhoenixElmBoilerplateWeb
+      use Phoenix.Controller, namespace: ElmSpaWeb
 
       import Plug.Conn
-      import PhoenixElmBoilerplateWeb.Gettext
-      alias PhoenixElmBoilerplateWeb.Router.Helpers, as: Routes
+      import ElmSpaWeb.Gettext
+      alias ElmSpaWeb.Router.Helpers, as: Routes
     end
   end
 
   def view do
     quote do
       use Phoenix.View,
-        root: "lib/phoenix_elm_boilerplate_web/templates",
-        namespace: PhoenixElmBoilerplateWeb
+        root: "lib/elm_spa_web/templates",
+        namespace: ElmSpaWeb
 
       # Import convenience functions from controllers
       import Phoenix.Controller, only: [get_flash: 1, get_flash: 2, view_module: 1]
@@ -39,9 +39,9 @@ defmodule PhoenixElmBoilerplateWeb do
       # Use all HTML functionality (forms, tags, etc)
       use Phoenix.HTML
 
-      import PhoenixElmBoilerplateWeb.ErrorHelpers
-      import PhoenixElmBoilerplateWeb.Gettext
-      alias PhoenixElmBoilerplateWeb.Router.Helpers, as: Routes
+      import ElmSpaWeb.ErrorHelpers
+      import ElmSpaWeb.Gettext
+      alias ElmSpaWeb.Router.Helpers, as: Routes
     end
   end
 
@@ -56,7 +56,7 @@ defmodule PhoenixElmBoilerplateWeb do
   def channel do
     quote do
       use Phoenix.Channel
-      import PhoenixElmBoilerplateWeb.Gettext
+      import ElmSpaWeb.Gettext
     end
   end
 

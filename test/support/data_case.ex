@@ -1,4 +1,4 @@
-defmodule PhoenixElmBoilerplate.DataCase do
+defmodule ElmSpa.DataCase do
   @moduledoc """
   This module defines the setup for tests requiring
   access to the application's data layer.
@@ -16,20 +16,20 @@ defmodule PhoenixElmBoilerplate.DataCase do
 
   using do
     quote do
-      alias PhoenixElmBoilerplate.Repo
+      alias ElmSpa.Repo
 
       import Ecto
       import Ecto.Changeset
       import Ecto.Query
-      import PhoenixElmBoilerplate.DataCase
+      import ElmSpa.DataCase
     end
   end
 
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(PhoenixElmBoilerplate.Repo)
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(ElmSpa.Repo)
 
     unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(PhoenixElmBoilerplate.Repo, {:shared, self()})
+      Ecto.Adapters.SQL.Sandbox.mode(ElmSpa.Repo, {:shared, self()})
     end
 
     :ok

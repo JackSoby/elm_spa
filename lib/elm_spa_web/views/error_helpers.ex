@@ -1,4 +1,4 @@
-defmodule PhoenixElmBoilerplateWeb.ErrorHelpers do
+defmodule ElmSpaWeb.ErrorHelpers do
   @moduledoc """
   Conveniences for translating and building error messages.
   """
@@ -36,9 +36,9 @@ defmodule PhoenixElmBoilerplateWeb.ErrorHelpers do
     # should be written to the errors.po file. The :count option is
     # set by Ecto and indicates we should also apply plural rules.
     if count = opts[:count] do
-      Gettext.dngettext(PhoenixElmBoilerplateWeb.Gettext, "errors", msg, msg, count, opts)
+      Gettext.dngettext(ElmSpaWeb.Gettext, "errors", msg, msg, count, opts)
     else
-      Gettext.dgettext(PhoenixElmBoilerplateWeb.Gettext, "errors", msg, opts)
+      Gettext.dgettext(ElmSpaWeb.Gettext, "errors", msg, opts)
     end
   end
 end

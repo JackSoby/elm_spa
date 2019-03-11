@@ -1,4 +1,4 @@
-# PhoenixElmBoilerplate
+# ElmSpa
 
 To start your Phoenix server:
 

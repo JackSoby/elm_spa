@@ -1,9 +1,9 @@
-defmodule PhoenixElmBoilerplate.MixProject do
+defmodule ElmSpa.MixProject do
   use Mix.Project
 
   def project do
     [
-      app: :phoenix_elm_boilerplate,
+      app: :elm_spa,
       version: "0.1.0",
       elixir: "~> 1.5",
       elixirc_paths: elixirc_paths(Mix.env()),
@@ -19,7 +19,7 @@ defmodule PhoenixElmBoilerplate.MixProject do
   # Type `mix help compile.app` for more information.
   def application do
     [
-      mod: {PhoenixElmBoilerplate.Application, []},
+      mod: {ElmSpa.Application, []},
       extra_applications: [:logger, :runtime_tools]
     ]
   end
