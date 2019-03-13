@@ -18,5 +18,14 @@ import "phoenix_html"
 import { Elm } from "../src/Main.elm";
 
 var app = Elm.Main.init({
-    node: document.getElementById('elm-main')
+    node: document.getElementById('elm-main'),
+    flags: {
+        user: {
+            id: "1"
+            , email: "sobojack@bowst.com"
+            , firstName: "Jack"
+            , lastName: "Sobocinski"
+            , role: "The Boss"
+        }
+    }
 });
