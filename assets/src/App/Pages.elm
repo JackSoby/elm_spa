@@ -1,6 +1,7 @@
 module App.Pages exposing (Model, Msg(..), Page(..), changeRouteTo, init, update, updateWith, view)
 
 import App.Pages.Home as Home
+import App.Pages.Notes as Notes
 import App.Route as Route exposing (..)
 import App.Session as Session exposing (Session)
 import Html exposing (Html, div, text)
@@ -10,6 +11,7 @@ type Page
     = Blank
     | NotFound
     | HomePage Home.Model
+    | NotesPage Notes.Model
 
 
 type alias Model =
@@ -31,6 +33,16 @@ changeRouteTo maybeRoute session model =
             Home.init
                 |> updateWith HomePage HomeMsg
 
+        Just (Route.NoteRoute subRoute) ->
+            (case model of
+                NotesPage subPage ->
+                    Notes.changeRouteTo subRoute session subPage
+
+                _ ->
+                    Notes.init subRoute session
+            )
+                |> updateWith NotesPage NotesMsg
+
 
 update : Session -> Msg -> Model -> ( Model, Cmd Msg )
 update session msg page =
@@ -38,6 +50,10 @@ update session msg page =
         ( HomeMsg pageMsg, HomePage pageModel ) ->
             Home.update session pageMsg pageModel
                 |> updateWith HomePage HomeMsg
+
+        ( NotesMsg pageMsg, NotesPage pageModel ) ->
+            Notes.update session pageMsg pageModel
+                |> updateWith NotesPage NotesMsg
 
         _ ->
             ( page, Cmd.none )
@@ -56,6 +72,10 @@ view session page =
         Blank ->
             text ""
 
+        NotesPage pageModel ->
+            Notes.view session pageModel
+                |> Html.map NotesMsg
+
 
 updateWith : (subModel -> Model) -> (subMsg -> Msg) -> ( subModel, Cmd subMsg ) -> ( Model, Cmd Msg )
 updateWith toModel toMsg ( subModel, subCmd ) =
@@ -66,3 +86,4 @@ updateWith toModel toMsg ( subModel, subCmd ) =
 
 type Msg
     = HomeMsg Home.Msg
+    | NotesMsg Notes.Msg

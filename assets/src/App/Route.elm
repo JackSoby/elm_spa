@@ -1,5 +1,6 @@
 module App.Route exposing (Route(..), fromUrl, parser, replaceUrl, routeParser, routeToString)
 
+import App.Pages.Notes as Note
 import Browser.Navigation as Nav
 import Html exposing (Attribute)
 import Html.Attributes as Attr
@@ -10,6 +11,7 @@ import Url.Parser.Query as Query
 
 type Route
     = Home
+    | NoteRoute Note.Route
 
 
 parser : Parser (Route -> a) a
@@ -21,6 +23,7 @@ routeParser : Parser (Route -> a) a
 routeParser =
     oneOf
         [ Parser.map Home Parser.top
+        , Parser.map NoteRoute (s "notes" </> Note.parser)
         ]
 
 
@@ -45,5 +48,9 @@ routeToString page =
             case page of
                 Home ->
                     ( [], "" )
+
+                NoteRoute subRoute ->
+                    Note.routeToParts subRoute
+                        |> Tuple.mapFirst ((::) "notes")
     in
     "/app/" ++ String.join "/" pieces

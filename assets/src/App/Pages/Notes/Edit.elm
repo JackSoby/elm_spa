@@ -1,4 +1,4 @@
-module App.Pages.Home exposing (Model, Msg(..), init, update, view)
+module App.Pages.Notes.Edit exposing (Model, Msg(..), init, update, view)
 
 import App.Session as Session exposing (Session)
 import Html exposing (..)
@@ -10,29 +10,21 @@ type alias Model =
 
 
 type Msg
-    = HomeMsg
+    = NoOp
 
 
-init : ( Model, Cmd Msg )
-init =
-    let
-        log =
-            Debug.log "log" "I am home"
-    in
+init : Session -> ( Model, Cmd Msg )
+init session =
     ( {}, Cmd.none )
 
 
 view : Session -> Model -> Html Msg
 view session model =
-    let
-        log =
-            Debug.log "home" "view"
-    in
-    div [ attribute "style" "background: red;" ] [ text "HOME BOY" ]
+    div [ attribute "style" "background: yello;" ] [ text "Edit Page" ]
 
 
 update : Session -> Msg -> Model -> ( Model, Cmd Msg )
 update session msg model =
     case msg of
-        HomeMsg ->
+        NoOp ->
             ( model, Cmd.none )

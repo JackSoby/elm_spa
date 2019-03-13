@@ -145,11 +145,11 @@ view model =
 
         body =
             div [ id "layout" ]
-                [ text "toolbah"
+                [ content
                 ]
 
         title =
-            "Quiver | Dashboard"
+            "Quivaaaa | Dashboard"
     in
     { title = title
     , body = [ body ]
