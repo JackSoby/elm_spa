@@ -21,7 +21,8 @@ defmodule ElmSpaWeb.Router do
   end
 
   # Other scopes may use custom stacks.
-  # scope "/api", ElmSpaWeb do
-  #   pipe_through :api
-  # end
+  scope "/api", ElmSpaWeb do
+    pipe_through :api
+    get "/notes", NotesController, :index
+  end
 end

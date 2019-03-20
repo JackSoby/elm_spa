@@ -41,6 +41,10 @@ defmodule ElmSpa.MixProject do
       {:phoenix_html, "~> 2.11"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
       {:gettext, "~> 0.11"},
+      {:kronky, "~> 0.5.0"},
+      {:dataloader, "~> 1.0.0"},
+      {:absinthe, "~> 1.4"},
+      {:absinthe_plug, "~> 1.4"},
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"}
     ]

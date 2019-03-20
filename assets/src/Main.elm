@@ -1,5 +1,9 @@
 module Main exposing (main)
 
+import App.Pages as Pages
+import App.Route as Route exposing (..)
+import App.Schemas.User exposing (User)
+import App.Session as Session exposing (Session)
 import Browser
 import Browser.Navigation as Nav
 import Html exposing (..)
@@ -8,6 +12,7 @@ import Url
 import Url.Parser exposing ((</>), Parser, int, map, oneOf, parse, s, string, top)
 
 
+main : Program Flags Model Msg
 main =
     Browser.application
         { init = init
@@ -19,6 +24,10 @@ main =
         }
 
 
+type alias Flags =
+    { user : User }
+
+
 type Route
     = Home
     | About
@@ -28,7 +37,7 @@ type Route
 parser : Parser (Route -> a) a
 parser =
     oneOf
-        [ map Home (s "home")
+        [ map Home top
         , map About (s "about")
         ]
 
@@ -38,15 +47,26 @@ parser =
 
 
 type alias Model =
-    { key : Nav.Key
-    , url : Url.Url
-    , route : Route
+    { page : Pages.Model
+    , session : Session
     }
 
 
-init : () -> Url.Url -> Nav.Key -> ( Model, Cmd Msg )
-init flags url key =
-    ( Model key url Home, Cmd.none )
+init : Flags -> Url.Url -> Nav.Key -> ( Model, Cmd Msg )
+init flags url navKey =
+    let
+        ( nextSession, nextSessionCmd ) =
+            Session.init navKey flags.user
+
+        ( nextPage, nextPageCmd ) =
+            Pages.init (Route.fromUrl url) nextSession
+
+        nextModel =
+            { page = nextPage
+            , session = nextSession
+            }
+    in
+    ( nextModel, Cmd.none )
 
 
 
@@ -56,6 +76,7 @@ init flags url key =
 type Msg
     = LinkClicked Browser.UrlRequest
     | UrlChanged Url.Url
+    | PageMsg Pages.Msg
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -64,15 +85,31 @@ update msg model =
         LinkClicked urlRequest ->
             case urlRequest of
                 Browser.Internal url ->
-                    ( model, Nav.pushUrl model.key (Url.toString url) )
+                    if String.startsWith "/app" url.path then
+                        ( model, Nav.pushUrl model.session.navKey (Url.toString url) )
+
+                    else
+                        ( model, Nav.load (Url.toString url) )
+
+                Browser.External "" ->
+                    ( model, Cmd.none )
 
                 Browser.External href ->
                     ( model, Nav.load href )
 
+        PageMsg subMsg ->
+            let
+                ( nextPage, nextPageMsg ) =
+                    Pages.update model.session subMsg model.page
+            in
+            ( { model | page = nextPage }, Cmd.map PageMsg nextPageMsg )
+
         UrlChanged url ->
-            ( { model | route = fromUrl url }
-            , Cmd.none
-            )
+            let
+                ( nextPage, nextPageCmd ) =
+                    Pages.changeRouteTo (Route.fromUrl url) model.session model.page
+            in
+            ( { model | page = nextPage }, Cmd.map PageMsg nextPageCmd )
 
 
 fromUrl : Url.Url -> Route
@@ -95,15 +132,28 @@ subscriptions _ =
 
 view : Model -> Browser.Document Msg
 view model =
-    case model.route of
-        Home ->
-            viewHomePage
+    let
+        page =
+            Pages.view model.session model.page
+                |> Html.map PageMsg
 
-        About ->
-            viewAboutPage
+        content =
+            div [ class "columns" ]
+                [ div [ class "column has-background-light", id "page" ]
+                    [ page ]
+                ]
 
-        NotFound ->
-            viewNotFoundPage
+        body =
+            div [ id "layout" ]
+                [ content
+                ]
+
+        title =
+            "Quivaaaa | Dashboard"
+    in
+    { title = title
+    , body = [ body ]
+    }
 
 
 viewHomePage : Page msg
@@ -124,10 +174,10 @@ type alias Page msg =
 
 header : Html msg
 header =
-    div []
+    div [ class "collapse navbar-collapse" ]
         [ p [] [ text "Header" ]
         , ul []
-            [ viewLink "/home"
+            [ viewLink "/"
             , viewLink "/about"
             ]
         ]
