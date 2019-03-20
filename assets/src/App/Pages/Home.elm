@@ -28,7 +28,13 @@ view session model =
         log =
             Debug.log "home" "view"
     in
-    div [ attribute "style" "background: red;" ] [ text "HOME BOY" ]
+    div []
+        [ div [ attribute "style" "background: red;" ]
+            [ text "HOME BOY" ]
+        , a
+            [ attribute "style" "background: pink;", href "/app/notes" ]
+            [ text "go to list" ]
+        ]
 
 
 update : Session -> Msg -> Model -> ( Model, Cmd Msg )
